@@ -2,9 +2,10 @@
   "name": "viewlib",
   "version": "1.0.0",
   "description": "Viewlib Test",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sequelize-skeleton": "./node_modules/sequelize-cli/lib/sequelize init:models; ./node_modules/sequelize-cli/lib/sequelize init:config"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
     "sequelize": "^5.10.1"
   },
   "devDependencies": {
+    "faker": "^4.1.0",
     "nodemon": "^1.19.1",
     "sequelize-cli": "^5.5.0"
   }
