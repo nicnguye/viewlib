@@ -1,10 +1,11 @@
-const { Players } = require('../models')
+const { Player } = require('../models')
 const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 /* GET ALL */
 const getAll = async function(req, res) {
   try {
-    const players = await Players.findAll({})
+    const players = await Player.findAll({})
     return players
   } catch(err) {
     console.log(err)

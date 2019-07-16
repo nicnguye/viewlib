@@ -9,12 +9,12 @@ router.post('/players', function(req, res, next){
 }) 
 
 /* UPDATE */
-router.put('/players', function(req, res, next){
+router.put('/players/:id', function(req, res, next){
   
 }) 
 
 /* DELETE */
-router.delete('/players', function(req, res, next){
+router.delete('/players/:id', function(req, res, next){
   
 }) 
 
