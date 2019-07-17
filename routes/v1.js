@@ -2,27 +2,22 @@ const express = require('express')
 const router = express.Router()
 
 const PlayerController = require('../controllers/playersController')
+const ValidatorMiddleware = require('../middleware/validatorMiddleware')
+const PlayerSchema = ValidatorMiddleware.Schema
 
 /* CREATE */
-router.post('/players', function(req, res, next){
-  PlayerController.createPlayer(req, res).then((result) => res.json(result))
-}) 
+router.post('/players', ValidatorMiddleware.validate(PlayerSchema.create), PlayerController.createPlayer) 
 
 /* UPDATE */
-router.put('/players/:id', function(req, res, next){
-  PlayerController.updatePlayer(req, res).then((result) => res.json(result))
-}) 
+router.put('/players/:uuid', PlayerController.updatePlayer) 
 
 /* DELETE */
-router.delete('/players/:id', function(req, res, next){
-  PlayerController.deletePlayer(req, res).then((result) => res.json(result))
-}) 
+router.delete('/players/:uuid', PlayerController.deletePlayer) 
 
 /* GET ALL */
 router.get('/players', PlayerController.getAllPlayer) 
 
 /* GET ONE */
-router.get('/players/:id', function(req, res, next){
-  PlayerController.getOnePlayer(req, res).then((result) => res.json(result))
-})
+router.get('/players/:uuid', PlayerController.getOnePlayer)
+
 module.exports = router;
