@@ -47,5 +47,14 @@ const Schema = {
   getOne: Joi.object().keys({
     uuid: Joi.string()
   }),
+  register: Joi.object().keys({
+    username: Joi.string().alphanum().min(3).max(30).required(),
+    password: Joi.string().min(4).max(30).required(),
+    mail: Joi.string().email({ minDomainSegments: 2 })
+  }),
+  login: Joi.object().keys({
+    mail: Joi.string().email({ minDomainSegments: 2 }),
+    password: Joi.string().min(4).max(30).required(),
+  }),
 };
 module.exports.Schema = Schema

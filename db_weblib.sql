@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3307
--- Généré le :  jeu. 18 juil. 2019 à 06:08
+-- Généré le :  jeu. 18 juil. 2019 à 07:04
 -- Version du serveur :  8.0.16
 -- Version de PHP :  7.3.7
 
@@ -38,6 +38,22 @@ CREATE TABLE `players` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `mail` varchar(255) NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Index pour les tables déchargées
 --
@@ -50,6 +66,14 @@ ALTER TABLE `players`
   ADD UNIQUE KEY `uuid` (`uuid`);
 
 --
+-- Index pour la table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD UNIQUE KEY `mail` (`mail`);
+
+--
 -- AUTO_INCREMENT pour les tables déchargées
 --
 
@@ -57,6 +81,12 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT pour la table `players`
 --
 ALTER TABLE `players`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `users`
+--
+ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
