@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "sequelize-skeleton": "./node_modules/sequelize-cli/lib/sequelize init:models; ./node_modules/sequelize-cli/lib/sequelize init:config",
+    "sequelize-init": "./node_modules/sequelize-cli/lib/sequelize db:migrate",    
     "start:dev": "nodemon server.js"
   },
   "repository": {

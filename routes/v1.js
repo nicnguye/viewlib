@@ -23,4 +23,8 @@ router.get('/players', PlayerController.getAllPlayer)
 /* GET ONE */
 router.get('/players/:uuid', ValidatorMiddleware.validateParams(PlayerSchema.getOne),PlayerController.getOnePlayer)
 
+/* LOGIN */
+
+/* REGISTER */
+
 module.exports = router;
