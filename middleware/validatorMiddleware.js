@@ -2,17 +2,29 @@ const Joi = require('Joi')
 
 const nameRegex = /^[a-zA-Z\s]+$/
 
-const validate = (schema) => {
+const validateBody = (schema) => {
   return function (req, res, next) {
-    const result = Joi.validate(req.body, schema)
+    const result = Joi.validate(req.body, schema, {abortEarly: false})
     if (result.error) {
-      return res.status(400).json( { error: result.error } )
+      return res.status(400).json( result.error )
     }
     else
       return next()
   }
 }
-module.exports.validate = validate;
+module.exports.validateBody = validateBody;
+
+const validateParams = (schema) => {
+  return function (req, res, next) {
+    const result = Joi.validate(req.params, schema, {abortEarly: false})
+    if (result.error) {
+      return res.status(400).json( result.error )
+    }
+    else
+      return next()
+  }
+}
+module.exports.validateParams = validateParams;
 
 const Schema = {
   create: Joi.object().keys({
@@ -20,13 +32,20 @@ const Schema = {
     position: Joi.string().regex(nameRegex).min(2).max(30).required(),
     number: Joi.number().min(1).max(99).required()
   }),
-  update: Joi.object().keys({
+  updateBody: Joi.object().keys({
     name: Joi.string().regex(nameRegex).min(3).max(30).required(),
     position: Joi.string().regex(nameRegex).min(2).max(30).required(),
     number: Joi.number().min(1).max(99).required()
   }),
-  delete: Joi.object().keys({}),
+  updateParams: Joi.object().keys({
+    uuid: Joi.string()
+  }),
+  delete: Joi.object().keys({
+    uuid: Joi.string()
+  }),
   getAll: Joi.object().keys({}),
-  getOne: Joi.object().keys({}),
+  getOne: Joi.object().keys({
+    uuid: Joi.string()
+  }),
 };
 module.exports.Schema = Schema

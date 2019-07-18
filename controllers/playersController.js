@@ -26,8 +26,11 @@ const updatePlayer = async function(req, res) {
   const { name, position, number} = req.body
   if (playerUuid !== "undefined"){
     try {
-      const players = await Player.update({ name, position,number }, { where: {uuid: playerUuid}})
-      return res.json(players)
+      const player = await Player.findOne({ where: {uuid: playerUuid}})
+      if (!player)
+        return res.send("Player doesn't exist !")
+      player.update({ name, position, number }, { where: {uuid: playerUuid}})
+      return res.status(200).json(player)
     } catch(err) {
       console.log(err)
     }
@@ -41,8 +44,13 @@ const deletePlayer = async function(req, res) {
   if (playerUuid !== "undefined")
   {
     try {
-      const players = await Player.findOne({ where: {uuid: playerUuid}})
-      return players.destroy()
+      const player = await Player.findOne({ where: {uuid: playerUuid}})
+      if (!player)
+        return res.send("Player doesn't exist !")
+      else {
+        const result = player.destroy()
+        return res.status(200).json(result)
+      }
     } catch(err) {
       console.log(err)
     }
@@ -56,7 +64,10 @@ module.exports.deletePlayer = deletePlayer
 const getAllPlayer = async function(req, res) {
   try {
     const players = await Player.findAll({})
-    return res.json(players)
+    if (!players.length)
+      return res.send("No player!")
+    else
+      return res.json(players)
   } catch(err) {
     console.log(err)
   }
@@ -69,8 +80,11 @@ const getOnePlayer = async function(req, res) {
   if (playerUuid !== "undefined")
   {
     try {
-      const players = await Player.findOne({ where: {uuid: playerUuid}})
-      return res.json(players)
+      const player = await Player.findOne({ where: {uuid: playerUuid}})
+      if (!player)
+        return res.send("Player doesn't exist !")
+      else
+        return res.json(player)
     } catch(err) {
       console.log(err)
     }

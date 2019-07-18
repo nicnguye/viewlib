@@ -6,18 +6,21 @@ const ValidatorMiddleware = require('../middleware/validatorMiddleware')
 const PlayerSchema = ValidatorMiddleware.Schema
 
 /* CREATE */
-router.post('/players', ValidatorMiddleware.validate(PlayerSchema.create), PlayerController.createPlayer) 
+router.post('/players', ValidatorMiddleware.validateBody(PlayerSchema.create), PlayerController.createPlayer) 
 
 /* UPDATE */
-router.put('/players/:uuid', PlayerController.updatePlayer) 
+router.put('/players/:uuid', 
+ValidatorMiddleware.validateParams(PlayerSchema.updateParams),
+ValidatorMiddleware.validateBody(PlayerSchema.updateBody),
+PlayerController.updatePlayer) 
 
 /* DELETE */
-router.delete('/players/:uuid', PlayerController.deletePlayer) 
+router.delete('/players/:uuid', ValidatorMiddleware.validateParams(PlayerSchema.delete), PlayerController.deletePlayer) 
 
 /* GET ALL */
 router.get('/players', PlayerController.getAllPlayer) 
 
 /* GET ONE */
-router.get('/players/:uuid', PlayerController.getOnePlayer)
+router.get('/players/:uuid', ValidatorMiddleware.validateParams(PlayerSchema.getOne),PlayerController.getOnePlayer)
 
 module.exports = router;
