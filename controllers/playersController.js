@@ -32,7 +32,7 @@ const updatePlayer = async function(req, res) {
     try {
       const player = await Player.findOne({ where: {uuid: playerUuid}})
       if (!player)
-        return res.json({
+        return res.status(400).json({
           success: false,
           msg: "Player doesn't exist !"
         })
@@ -57,7 +57,7 @@ const deletePlayer = async function(req, res) {
     try {
       const player = await Player.findOne({ where: {uuid: playerUuid}})
       if (!player)
-        return res.json({
+        return res.status(400).json({
           success: false,
           msg: "Player doesn't exist !"
         })
@@ -82,12 +82,12 @@ const getAllPlayer = async function(req, res) {
   try {
     const players = await Player.findAll({})
     if (!players.length)
-      return res.json({
+      return res.status(200).json({
         success: false,
         msg: "No player!"
       })
     else
-      return res.json({
+      return res.status(200).json({
         success: true,
         msg: "Players fetched",
         players: players
@@ -106,12 +106,12 @@ const getOnePlayer = async function(req, res) {
     try {
       const player = await Player.findOne({ where: {uuid: playerUuid}})
       if (!player)
-        return res.json({
+        return res.status(400).json({
           success: false,
           msg: "Player doesn't exist !"
         })
       else
-        return res.json({
+        return res.status(200).json({
           success: true,
           msg: "player found !",
           player: player

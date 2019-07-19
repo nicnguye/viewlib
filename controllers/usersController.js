@@ -14,7 +14,7 @@ const register = async function(req, res) {
   try {
     const userExist = await User.findOne({ where: {mail: mail}})
     if (userExist)
-      return res.json({
+      return res.status(400).json({
         success: false,
         msg: "User already exist"
       })
@@ -26,7 +26,7 @@ const register = async function(req, res) {
         password: hashPassword,
         mail: mail.trim()
       })
-      return res.json({
+      return res.status(200).json({
         success: true,
         msg: "user registered",
         user: user
@@ -44,20 +44,20 @@ const login = async function(req, res) {
   try {
     const userExist = await User.findOne({ where: {username: username}})
     if (!userExist)
-      return res.json({
+      return res.status(400).json({
         success: false,
         msg: "User not found"
       })
     else {
       bcrypt.compare(password.trim(), userExist.password).then((result) => {
         if (result === false)
-          return res.json({
+          return res.status(401).json({
             success: false,
             msg: "Wrong password !"
           })
         else {
           const token = jwt.sign({sub: userExist.uuid}, CONFIG.jwtSecret, { expiresIn: 604800 }) //1 week
-          return res.json({
+          return res.status(200).json({
             success: true,
             msg: "logged in !",
             token: 'JWT ' + token,
