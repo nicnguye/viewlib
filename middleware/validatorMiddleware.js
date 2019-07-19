@@ -57,7 +57,7 @@ const Schema = {
     mail: Joi.string().email({ minDomainSegments: 2 })
   }),
   login: Joi.object().keys({
-    mail: Joi.string().email({ minDomainSegments: 2 }),
+    username: Joi.string().alphanum().min(3).max(30).required(),
     password: Joi.string().min(4).max(30).required(),
   }),
 };

@@ -4,7 +4,7 @@
   "description": "Viewlib Test",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha 'test/apiTest.js'",
     "sequelize-skeleton": "./node_modules/sequelize-cli/lib/sequelize init:models; ./node_modules/sequelize-cli/lib/sequelize init:config",
     "sequelize-init": "./node_modules/sequelize-cli/lib/sequelize db:migrate",
     "start:dev": "nodemon server.js"
@@ -35,8 +35,9 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "faker": "^4.1.0",
+    "mocha": "^6.2.0",
     "nodemon": "^1.19.1",
-    "sequelize-cli": "^5.5.0"
+    "sequelize-cli": "^5.5.0",
+    "supertest": "^4.0.2"
   }
 }

@@ -14,7 +14,7 @@ const register = async function(req, res) {
   try {
     const userExist = await User.findOne({ where: {mail: mail}})
     if (userExist)
-      return res.send({
+      return res.json({
         success: false,
         msg: "User already exist"
       })
@@ -40,9 +40,9 @@ module.exports.register = register
 
 /* LOGIN USER */
 const login = async function(req, res) {
-  const { mail, password } = req.body
+  const { username, password } = req.body
   try {
-    const userExist = await User.findOne({ where: {mail: mail}})
+    const userExist = await User.findOne({ where: {username: username}})
     if (!userExist)
       return res.json({
         success: false,

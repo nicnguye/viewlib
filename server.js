@@ -1,6 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser")
-const faker = require("faker");
 const db = require("./models");
 const v1 = require("./routes/v1")
 const http = require("http")
