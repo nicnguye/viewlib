@@ -1,7 +1,9 @@
 const Joi = require('Joi')
 
+/* Only letters and space */
 const nameRegex = /^[a-zA-Z\s]+$/
 
+/* Check body object */
 const validateBody = (schema) => {
   return function (req, res, next) {
     const result = Joi.validate(req.body, schema, {abortEarly: false})
@@ -14,6 +16,7 @@ const validateBody = (schema) => {
 }
 module.exports.validateBody = validateBody;
 
+/* Check params object */
 const validateParams = (schema) => {
   return function (req, res, next) {
     const result = Joi.validate(req.params, schema, {abortEarly: false})
@@ -26,6 +29,7 @@ const validateParams = (schema) => {
 }
 module.exports.validateParams = validateParams;
 
+/* Schema for each API request */
 const Schema = {
   create: Joi.object().keys({
     name: Joi.string().regex(nameRegex).min(3).max(30).required(),

@@ -7,13 +7,17 @@ const Op = Sequelize.Op
 const createPlayer = async function(req, res) {
   const { name, position, number } = req.body
   try {
-    const players = await Player.create({
+    const player = await Player.create({
       uuid: uuidv4(),
       name: name.trim(),
       position: position.trim(),
       number: number
     })
-    return res.json(players)
+    return res.status(200).json({
+      success: true,
+      msg: "Player created",
+      player: player
+    })
   } catch(err) {
     console.log(err)
   }
@@ -28,9 +32,16 @@ const updatePlayer = async function(req, res) {
     try {
       const player = await Player.findOne({ where: {uuid: playerUuid}})
       if (!player)
-        return res.send("Player doesn't exist !")
-      player.update({ name, position, number }, { where: {uuid: playerUuid}})
-      return res.status(200).json(player)
+        return res.json({
+          success: false,
+          msg: "Player doesn't exist !"
+        })
+      const newPlayer = await player.update({ name, position, number }, { where: {uuid: playerUuid}})
+      return res.status(200).json({
+        success: true,
+        msg: "Player updated",
+        player: newPlayer
+      })
     } catch(err) {
       console.log(err)
     }
@@ -46,10 +57,16 @@ const deletePlayer = async function(req, res) {
     try {
       const player = await Player.findOne({ where: {uuid: playerUuid}})
       if (!player)
-        return res.send("Player doesn't exist !")
+        return res.json({
+          success: false,
+          msg: "Player doesn't exist !"
+        })
       else {
-        const result = player.destroy()
-        return res.status(200).json(result)
+        const result = await player.destroy()
+        return res.status(200).json({
+          success: true,
+          result: result
+        })
       }
     } catch(err) {
       console.log(err)
@@ -65,9 +82,16 @@ const getAllPlayer = async function(req, res) {
   try {
     const players = await Player.findAll({})
     if (!players.length)
-      return res.send("No player!")
+      return res.json({
+        success: false,
+        msg: "No player!"
+      })
     else
-      return res.json(players)
+      return res.json({
+        success: true,
+        msg: "Players fetched",
+        players: players
+      })
   } catch(err) {
     console.log(err)
   }
@@ -82,9 +106,16 @@ const getOnePlayer = async function(req, res) {
     try {
       const player = await Player.findOne({ where: {uuid: playerUuid}})
       if (!player)
-        return res.send("Player doesn't exist !")
+        return res.json({
+          success: false,
+          msg: "Player doesn't exist !"
+        })
       else
-        return res.json(player)
+        return res.json({
+          success: true,
+          msg: "player found !",
+          player: player
+        })
     } catch(err) {
       console.log(err)
     }

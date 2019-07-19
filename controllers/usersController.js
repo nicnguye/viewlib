@@ -3,14 +3,21 @@ const uuidv4 = require('uuid/v4')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const passport = require('passport')
 
-/* CREATE USER */
+const CONFIG = require('../config/config.json')
+
+/* REGISTER USER */
 const register = async function(req, res) {
   const { username, password, mail } = req.body
   try {
     const userExist = await User.findOne({ where: {mail: mail}})
     if (userExist)
-      return res.send("User already exist")
+      return res.send({
+        success: false,
+        msg: "User already exist"
+      })
     else {
       let hashPassword = bcrypt.hashSync(password.trim(), 10)
       const user = await User.create({
@@ -19,10 +26,14 @@ const register = async function(req, res) {
         password: hashPassword,
         mail: mail.trim()
       })
-      return res.json(user)
+      return res.json({
+        success: true,
+        msg: "user registered",
+        user: user
+      })
     }
-  } catch(err) {
-    console.log(err)
+  }catch(err) {
+    console.log(err);
   }
 }
 module.exports.register = register
@@ -33,13 +44,29 @@ const login = async function(req, res) {
   try {
     const userExist = await User.findOne({ where: {mail: mail}})
     if (!userExist)
-      return res.send("User doesn't exist")
+      return res.json({
+        success: false,
+        msg: "User not found"
+      })
     else {
       bcrypt.compare(password.trim(), userExist.password).then((result) => {
         if (result === false)
-          return res.send("Wrong password !")
+          return res.json({
+            success: false,
+            msg: "Wrong password !"
+          })
         else {
-          return res.json("logged in !")
+          const token = jwt.sign({sub: userExist.uuid}, CONFIG.jwtSecret, { expiresIn: 604800 }) //1 week
+          return res.json({
+            success: true,
+            msg: "logged in !",
+            token: 'JWT ' + token,
+            user: {
+              uuid: userExist.uuid,
+              username: userExist.username,
+              mail: userExist.mail,
+            }
+          })
         }
       })
     }

@@ -1,0 +1,413 @@
+{
+	"info": {
+		"_postman_id": "0b39eabc-2fa0-42d8-b6c7-3ead1698a946",
+		"name": "Weblib Test",
+		"description": "Managing a soccer team",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create manager",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c065deba-ce75-43e5-832b-b4133060fef2",
+						"exec": [
+							"pm.test(\"Successful POST request: Manageri created!\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    console.log(jsonData)",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\",\n\t\"mail\": \"admin@gmail.com\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3307/v1/register/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3307",
+					"path": [
+						"v1",
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Manager sign in",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "829150f7-bcdf-45c2-b23b-6c7fc832e358",
+						"exec": [
+							"pm.test(\"Successful POST request: Manager logged in!\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    console.log(jsonData);",
+							"    pm.environment.set(\"jwt\", jsonData.token);",
+							"    ",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"mail\": \"admin@gmail.com\",\n\t\"password\": \"admin\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3307/v1/login/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3307",
+					"path": [
+						"v1",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create player Messi",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "96f6e9ff-ba9a-454c-8613-68bb068d3772",
+						"exec": [
+							"pm.test(\"Successful POST request: Messi created!\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    console.log(jsonData)",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8507f9db-9ca1-4624-aea2-b0f7dc555f3c",
+						"exec": [
+							"pm.environment.get(\"jwt\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Messi\",\n\t\"position\": \"Forward\",\n\t\"number\": 10\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3307/v1/players",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3307",
+					"path": [
+						"v1",
+						"players"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "and his buddy Ronaldo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "96f6e9ff-ba9a-454c-8613-68bb068d3772",
+						"exec": [
+							"pm.test(\"Successful POST request: Ronaldo created!\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    pm.environment.set(\"uuid\", jsonData.player.uuid);",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a16827f7-b5d7-40c5-aac2-fee018ec489a",
+						"exec": [
+							"pm.environment.get(\"jwt\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Ronaldo\",\n\t\"position\": \"Forward\",\n\t\"number\": 7\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3307/v1/players",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3307",
+					"path": [
+						"v1",
+						"players"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all players",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b3714299-dcff-4398-9d1f-cae35f9b3c5f",
+						"exec": [
+							"pm.test(\"Successful GET request: all player fetched\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    console.log(jsonData)",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "787b2ae8-4f1f-40a1-bc50-9350f08f54a2",
+						"exec": [
+							"pm.environment.get(\"jwt\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3307/v1/players/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3307",
+					"path": [
+						"v1",
+						"players",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update player Ronado",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "00c955a1-5ceb-4435-8bff-a57f9bbdcf7a",
+						"exec": [
+							"pm.environment.get(\"jwt\");",
+							"pm.environment.get(\"uuid\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ae677adc-31a2-49cf-82a6-e9533126af00",
+						"exec": [
+							"pm.test(\"Successful PUT request: Ronaldo replaced by Jean Claude\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    console.log(jsonData)",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Jean Claude\",\n\t\"position\": \"Midfielder\",\n\t\"number\": 2\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3307/v1/players/{{uuid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3307",
+					"path": [
+						"v1",
+						"players",
+						"{{uuid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get the new player",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b3714299-dcff-4398-9d1f-cae35f9b3c5f",
+						"exec": [
+							"pm.test(\"Successful GET request: new player fetched\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    console.log(jsonData)",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+							"    pm.environment.unset(\"uuid\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "52449cea-74c5-4ebb-8160-17cba0236024",
+						"exec": [
+							"pm.environment.get(\"uuid\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3307/v1/players/{{uuid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3307",
+					"path": [
+						"v1",
+						"players",
+						"{{uuid}}"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

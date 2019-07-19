@@ -4,10 +4,13 @@ const faker = require("faker");
 const db = require("./models");
 const v1 = require("./routes/v1")
 const http = require("http")
+const cors = require("cors")
+const passport = require('passport')
 
+/* API request log */
 const logger = require("morgan")
 
-/* Sequelize initialization */
+/* SEQUELIZE initialization */
 const CONFIG = require('./config/config.json')
 const models = require('./models')
 models.sequelize
@@ -19,15 +22,28 @@ models.sequelize
     console.error('Unable to connect to SQL database:', CONFIG.development.database, err)
   })
 
-/* Express initializiation */
+/* EXPRESS initialization */
 const app = express();
 app.use(logger('dev'))
+
+/* CORS Middleware */
+app.use(cors())
+
+/* BODY PARSER Middleware */
 app.use(bodyParser.json())
+
+/* ROUTES */
 app.use('/v1', v1)
 
+/* Passport Middleware */
+app.use(passport.initialize());
+app.use(passport.session())
+require('./config/passport')(passport);
+
+/* Index & 404 Route */
 app.get('/', (req, res) => res.status(200).send('Nothing to see here :('))
 app.use((req, res, next) => {
-  res.status(404).send('Not Found !')
+  res.status(404).send('Error 404: Not Found !')
 })
 
 const server = http.createServer(app)
