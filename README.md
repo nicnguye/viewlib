@@ -2,7 +2,7 @@
 Viewlib Test
 
 ## Getting started:
-Create a database named 'db_viewlib' then import 'db_viewlib.sql' file;
+Create a database named 'db_viewlib' then import 'db_viewlib.sql' file  
 use 'npm install' first then 'npm start' to start API or 'npm test' to test API with Mocha module
 
 ## Config Database
