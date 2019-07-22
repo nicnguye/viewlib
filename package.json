@@ -35,9 +35,57 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.2",
     "mocha": "^6.2.0",
     "nodemon": "^1.19.1",
     "sequelize-cli": "^5.5.0",
     "supertest": "^4.0.2"
+  },
+  "eslintConfig": {
+    "extends": "airbnb-base",
+    "env": {
+      "es6": true,
+      "browser": true,
+      "node": true
+    },
+    "rules": {
+      "brace-style": [
+        "error",
+        "1tbs"
+      ],
+      "comma-dangle": [
+        "error",
+        "never"
+      ],
+      "no-unused-vars": [
+        "warn"
+      ],
+      "no-var": [
+        "off"
+      ],
+      "one-var": [
+        "off"
+      ],
+      "object-shorthand": [
+        "off"
+      ],
+      "consistent-return": [
+        "off"
+      ],
+      "func-names": [
+        "off"
+      ],
+      "no-console": [
+        "off"
+      ],
+      "import/no-extraneous-dependencies": [
+        "off"
+      ],
+      "import/no-unresolved": [
+        "off"
+      ]
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0b39eabc-2fa0-42d8-b6c7-3ead1698a946",
+		"_postman_id": "12b6b54f-78e0-47c7-b8c7-7c493840d508",
 		"name": "Weblib Test",
 		"description": "Managing a soccer team",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -36,7 +36,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\",\n\t\"mail\": \"admin@gmail.com\"\n}"
+					"raw": "{\n\t\"username\": \"manager\",\n\t\"password\": \"manager\",\n\t\"mail\": \"manager@gmail.com\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3307/v1/register/",
@@ -86,7 +86,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"mail\": \"admin@gmail.com\",\n\t\"password\": \"admin\"\n}"
+					"raw": "{\n\t\"username\": \"manager\",\n\t\"password\": \"manager\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3307/v1/login/",
@@ -387,7 +387,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:3307/v1/players/{{uuid}}",
+					"raw": "http://localhost:3307/v1/players/{{uuid}}?",
 					"protocol": "http",
 					"host": [
 						"localhost"
